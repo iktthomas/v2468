@@ -1,17 +1,90 @@
 <!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<title>screen</title>
+<style>
+  body {
+    margin: 0;
+    background: black;
+    color: #00ff00;
+    font-family: monospace;
+    overflow: hidden;
+  }
+  #terminal {
+    padding: 10px;
+    white-space: pre-wrap;
+    font-size: 14px;
+  }
+  .error { color: #ff3b3b; }
+  .thinking { color: #00ffaa; font-style: italic; }
+  .progress {
+    display: inline-block;
+    width: 200px;
+    background: #002200;
+    margin-left: 10px;
+  }
+  .bar {
+    height: 10px;
+    background: #00ff00;
+    width: 0%;
+  }
+</style>
+</head>
+<body>
+<div id="terminal"></div>
+
+<script>
+const terminal = document.getElementById("terminal");
+
+const messages = [
+  "Initializing system scan...",
+  "Bypassing firewall...",
+  "Accessing secure node...",
+  "Decrypting data packets...",
+  "Injecting payload...",
+  "Scanning ports...",
+  "Tracking IP address...",
+  "Establishing connection...",
+  "Uploading exploit...",
+  "Downloading database...",
+  "Root access granted...",
+  "Executing command..."
+];
+
+const errors = [
+  "ERROR: Access denied",
+  "CRITICAL FAILURE: Node unreachable",
+  "WARNING: Suspicious activity detected",
+  "ERROR: Decryption failed",
+  "SECURITY ALERT: Firewall triggered",
+  "FATAL: Connection timeout"
+];
+
+function randomHex() {
+  return Math.random().toString(16).substring(2, 10);
+}
+
+function createProgressBar() {
+  const container = document.createElement("span");
+  container.className = "progress";
+
+  const bar = document.createElement("div");
+  bar.className = "bar";
+
   container.appendChild(bar);
 
   let progress = 0;
   setInterval(() => {
-    progress += Math.random() * 10;
+    progress += Math.random() * 8;
     if (progress >= 100) progress = 0;
     bar.style.width = progress + "%";
-  }, 100);
+  }, 120);
 
   return container;
 }
 
-function addLine(text, className = "") {
+function addLine(text, className="") {
   const line = document.createElement("div");
   line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
   if (className) line.className = className;
@@ -22,12 +95,12 @@ function randomLine() {
   const line = document.createElement("div");
 
   if (Math.random() < 0.2) {
-    line.textContent = `[${new Date().toLocaleTimeString()}] ${errors[Math.floor(Math.random() * errors.length)]}`;
+    line.textContent = `[${new Date().toLocaleTimeString()}] ${errors[Math.floor(Math.random()*errors.length)]}`;
     line.className = "error";
     return line;
   }
 
-  const msg = messages[Math.floor(Math.random() * messages.length)];
+  const msg = messages[Math.floor(Math.random()*messages.length)];
   line.textContent = `[${new Date().toLocaleTimeString()}] ${msg} ${randomHex()}`;
 
   if (Math.random() < 0.3) {
@@ -38,51 +111,55 @@ function randomLine() {
 }
 
 function cleanup() {
-  if (terminal.children.length > 1000) {
-    for (let i = 0; i < 200; i++) {
-      terminal.removeChild(terminal.firstChild);
+  if (terminal.children.length > 800) {
+    for (let i = 0; i < 150; i++) {
+      if (terminal.firstChild) terminal.removeChild(terminal.firstChild);
     }
   }
 }
 
 function loop() {
-  const action = Math.random();
+  try {
+    const r = Math.random();
 
-  // 15% chance: thinking pause
-  if (action < 0.15) {
-    addLine("thinking...", "thinking");
-    cleanup();
-    window.scrollTo(0, document.body.scrollHeight);
-    setTimeout(loop, 800 + Math.random() * 1200);
-    return;
-  }
+    // thinking pause
+    if (r < 0.15) {
+      addLine("thinking...", "thinking");
+      cleanup();
+      window.scrollTo(0, document.body.scrollHeight);
+      return setTimeout(loop, 800 + Math.random()*1000);
+    }
 
-  // 25% chance: burst (fast spam)
-  if (action < 0.40) {
-    for (let i = 0; i < 15; i++) {
+    // burst
+    if (r < 0.4) {
+      for (let i = 0; i < 12; i++) {
+        terminal.appendChild(randomLine());
+      }
+      cleanup();
+      window.scrollTo(0, document.body.scrollHeight);
+      return setTimeout(loop, 60);
+    }
+
+    // normal flow
+    const count = 2 + Math.floor(Math.random()*4);
+    for (let i = 0; i < count; i++) {
       terminal.appendChild(randomLine());
     }
+
     cleanup();
     window.scrollTo(0, document.body.scrollHeight);
-    setTimeout(loop, 50);
-    return;
+
+    const delay = 120 + Math.random()*200;
+    setTimeout(loop, delay);
+
+  } catch (e) {
+    console.error(e);
+    setTimeout(loop, 200); // never die
   }
-
-  // normal flow
-  const lines = 3 + Math.floor(Math.random() * 4);
-  for (let i = 0; i < lines; i++) {
-    terminal.appendChild(randomLine());
-  }
-
-  cleanup();
-  window.scrollTo(0, document.body.scrollHeight);
-
-  // variable speed
-  const delay = 120 + Math.random() * 200;
-  setTimeout(loop, delay);
 }
 
-loop();
+// start safely
+setTimeout(loop, 200);
 </script>
 </body>
 </html>
