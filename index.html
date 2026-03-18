@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<title>v2jjkklloonnxxqq</title>
+<title>Hacker Scan</title>
 <style>
   body {
     margin: 0;
@@ -134,26 +134,30 @@ const errors = [
 "WARNING: Suspicious packet flood"
 ];
 
-// TYPEWRITER (rask men kontrollert)
+// TYPEWRITER (rask + smooth)
 function typeLine(text, className = "") {
-  const line = document.createElement("div");
-  line.className = className;
-  terminal.appendChild(line);
+  return new Promise(resolve => {
+    const line = document.createElement("div");
+    line.className = className;
+    terminal.appendChild(line);
 
-  let i = 0;
+    let i = 0;
 
-  function type() {
-    line.textContent = text.substring(0, i);
-    i++;
+    function type() {
+      line.textContent = text.substring(0, i);
+      i++;
 
-    window.scrollTo(0, document.body.scrollHeight);
+      window.scrollTo(0, document.body.scrollHeight);
 
-    if (i <= text.length) {
-      setTimeout(type, 5 + Math.random()*6);
+      if (i <= text.length) {
+        setTimeout(type, 8 + Math.random()*8); // ⚡ raskere
+      } else {
+        resolve();
+      }
     }
-  }
 
-  type();
+    type();
+  });
 }
 
 // BOOT
@@ -169,11 +173,10 @@ const bootSequence = [
 
 let bootIndex = 0;
 
-function runBoot() {
-  if (bootIndex < bootSequence.length) {
-    typeLine(`[BOOT] ${bootSequence[bootIndex]}`);
+async function runBoot() {
+  while (bootIndex < bootSequence.length) {
+    await typeLine(`[BOOT] ${bootSequence[bootIndex]}`);
     bootIndex++;
-    return setTimeout(runBoot, 300);
   }
   loop();
 }
@@ -183,12 +186,12 @@ function randomHex() {
   return Math.random().toString(16).substring(2, 10);
 }
 
-// LINJE
-function randomLine() {
+// 70/30
+async function randomLine() {
   const isError = Math.random() < 0.3;
 
   if (isError) {
-    typeLine(
+    await typeLine(
       `[${new Date().toLocaleTimeString()}] ${errors[Math.floor(Math.random()*errors.length)]}`,
       "error"
     );
@@ -196,7 +199,9 @@ function randomLine() {
   }
 
   const msg = messages[Math.floor(Math.random()*messages.length)];
-  typeLine(`[${new Date().toLocaleTimeString()}] ${msg} ${randomHex()}`);
+  await typeLine(
+    `[${new Date().toLocaleTimeString()}] ${msg} ${randomHex()}`
+  );
 }
 
 // CLEANUP
@@ -208,26 +213,35 @@ function cleanup() {
   }
 }
 
-// LOOP (semi-kaos men stabil)
-function loop() {
+// BURST MODE LOOP
+async function loop() {
   try {
-    const isBurst = Math.random() < 0.3;
+    const isBurst = Math.random() < 0.3; // 30% sjanse
 
     if (isBurst) {
-      const count = 6 + Math.floor(Math.random()*5);
-      for (let i = 0; i < count; i++) {
-        randomLine();
+      // 🔥 BURST: masse linjer raskt
+      const burstCount = 6 + Math.floor(Math.random()*6);
+
+      for (let i = 0; i < burstCount; i++) {
+        await randomLine();
       }
+
       cleanup();
-      return setTimeout(loop, 200);
+
+      // pause etter burst
+      setTimeout(loop, 400 + Math.random()*400);
+      return;
     }
 
-    const count = 3 + Math.floor(Math.random()*3);
+    // normal flow
+    const count = 2 + Math.floor(Math.random()*3);
+
     for (let i = 0; i < count; i++) {
-      randomLine();
+      await randomLine();
     }
 
     cleanup();
+
     setTimeout(loop, 80 + Math.random()*120);
 
   } catch (e) {
@@ -238,10 +252,10 @@ function loop() {
 // START
 setTimeout(runBoot, 500);
 
-// AUTO REFRESH
+// AUTO REFRESH (90 sek)
 setTimeout(() => {
   location.reload();
-}, 60000);
+}, 90000);
 </script>
 </body>
 </html>
