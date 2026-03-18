@@ -1,9 +1,8 @@
-```html id="kaos99"
 <!DOCTYPE html>
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<title>v3v4gggsssty65</title>
+<title>v2jjkklloonnxxqq</title>
 <style>
   body {
     margin: 0;
@@ -17,15 +16,7 @@
     white-space: pre-wrap;
     font-size: 14px;
   }
-  .error { color: #ff2a2a; }
-  .flash {
-    animation: flash 0.1s infinite;
-  }
-  @keyframes flash {
-    0% { opacity: 1; }
-    50% { opacity: 0.3; }
-    100% { opacity: 1; }
-  }
+  .error { color: #ff3b3b; }
 </style>
 </head>
 <body>
@@ -143,7 +134,7 @@ const errors = [
 "WARNING: Suspicious packet flood"
 ];
 
-// EKSTREM TYPEWRITER
+// TYPEWRITER (rask men kontrollert)
 function typeLine(text, className = "") {
   const line = document.createElement("div");
   line.className = className;
@@ -158,19 +149,22 @@ function typeLine(text, className = "") {
     window.scrollTo(0, document.body.scrollHeight);
 
     if (i <= text.length) {
-      setTimeout(type, 2 + Math.random()*3); // 🔥 KAOS SPEED
+      setTimeout(type, 5 + Math.random()*6);
     }
   }
 
   type();
 }
 
-// BOOT 
+// BOOT
 const bootSequence = [
-"Booting kernel...",
-"Injecting modules...",
-"Bypassing security...",
-"System compromised."
+"Booting secure kernel...",
+"Loading modules...",
+"Initializing network interfaces...",
+"Mounting encrypted volumes...",
+"Starting intrusion engine...",
+"Establishing secure tunnel...",
+"System ready."
 ];
 
 let bootIndex = 0;
@@ -179,7 +173,7 @@ function runBoot() {
   if (bootIndex < bootSequence.length) {
     typeLine(`[BOOT] ${bootSequence[bootIndex]}`);
     bootIndex++;
-    return setTimeout(runBoot, 150);
+    return setTimeout(runBoot, 300);
   }
   loop();
 }
@@ -189,7 +183,7 @@ function randomHex() {
   return Math.random().toString(16).substring(2, 10);
 }
 
-// LINJER
+// LINJE
 function randomLine() {
   const isError = Math.random() < 0.3;
 
@@ -207,56 +201,42 @@ function randomLine() {
 
 // CLEANUP
 function cleanup() {
-  if (terminal.children.length > 1000) {
-    for (let i = 0; i < 300; i++) {
+  if (terminal.children.length > 800) {
+    for (let i = 0; i < 150; i++) {
       if (terminal.firstChild) terminal.removeChild(terminal.firstChild);
     }
   }
 }
 
-// CHAOS LOOP
+// LOOP (semi-kaos men stabil)
 function loop() {
   try {
-    const chaos = Math.random();
+    const isBurst = Math.random() < 0.3;
 
-    // MEGA BURST
-    if (chaos < 0.4) {
-      const count = 10 + Math.floor(Math.random()*10);
+    if (isBurst) {
+      const count = 6 + Math.floor(Math.random()*5);
       for (let i = 0; i < count; i++) {
         randomLine();
       }
       cleanup();
-      return setTimeout(loop, 50);
+      return setTimeout(loop, 200);
     }
 
-    // ERROR STORM
-    if (chaos < 0.6) {
-      for (let i = 0; i < 15; i++) {
-        typeLine(
-          `[${new Date().toLocaleTimeString()}] ${errors[Math.floor(Math.random()*errors.length)]}`,
-          "error"
-        );
-      }
-      cleanup();
-      return setTimeout(loop, 80);
-    }
-
-    // NORMAL CHAOS
-    const count = 5 + Math.floor(Math.random()*6);
+    const count = 3 + Math.floor(Math.random()*3);
     for (let i = 0; i < count; i++) {
       randomLine();
     }
 
     cleanup();
-    setTimeout(loop, 30);
+    setTimeout(loop, 80 + Math.random()*120);
 
   } catch (e) {
-    setTimeout(loop, 100);
+    setTimeout(loop, 200);
   }
 }
 
 // START
-setTimeout(runBoot, 200);
+setTimeout(runBoot, 500);
 
 // AUTO REFRESH
 setTimeout(() => {
@@ -265,4 +245,3 @@ setTimeout(() => {
 </script>
 </body>
 </html>
-```
