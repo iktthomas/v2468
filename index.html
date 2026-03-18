@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -17,7 +18,6 @@
     font-size: 14px;
   }
   .error { color: #ff3b3b; }
-  .thinking { color: #00ffaa; font-style: italic; }
   .progress {
     display: inline-block;
     width: 200px;
@@ -37,6 +37,7 @@
 <script>
 const terminal = document.getElementById("terminal");
 
+// ✅ 70 meldinger
 const messages = [
 "nmap scan initiated...",
 "ssh brute force attempt...",
@@ -109,8 +110,9 @@ const messages = [
 "OVERRIDE IN PROGRESS...",
 "SECURITY BYPASS SUCCESS...",
 "DATA BREACH CONFIRMED..."
-]; // 70 stk
+];
 
+// ✅ 30 errors
 const errors = [
 "ERROR: Access denied",
 "CRITICAL FAILURE: Node unreachable",
@@ -142,7 +144,7 @@ const errors = [
 "ERROR: Memory corruption detected",
 "CRITICAL: Stack overflow",
 "WARNING: Suspicious packet flood"
-]; // 30 stk
+];
 
 // TYPEWRITER
 function typeLine(text, className = "") {
@@ -151,17 +153,22 @@ function typeLine(text, className = "") {
   terminal.appendChild(line);
 
   let i = 0;
+
   function type() {
     line.textContent = text.substring(0, i);
     i++;
+
+    window.scrollTo(0, document.body.scrollHeight);
+
     if (i <= text.length) {
-      setTimeout(type, 8);
+      setTimeout(type, 20 + Math.random()*20);
     }
   }
+
   type();
 }
 
-// BOOT SEQUENCE
+// BOOT
 const bootSequence = [
 "Booting secure kernel...",
 "Loading modules...",
@@ -183,7 +190,7 @@ function runBoot() {
   loop();
 }
 
-// RANDOM HEX
+// HEX
 function randomHex() {
   return Math.random().toString(16).substring(2, 10);
 }
@@ -208,9 +215,9 @@ function createProgressBar() {
   return container;
 }
 
-// 70/30 LOGIKK
+// 70/30
 function randomLine() {
-  const isError = Math.random() < 0.3; // 30%
+  const isError = Math.random() < 0.3;
 
   if (isError) {
     typeLine(
@@ -221,17 +228,7 @@ function randomLine() {
   }
 
   const msg = messages[Math.floor(Math.random()*messages.length)];
-  const line = `[${new Date().toLocaleTimeString()}] ${msg} ${randomHex()}`;
-
-  const container = document.createElement("div");
-  terminal.appendChild(container);
-
-  typeLine(line);
-
-  if (Math.random() < 0.3) {
-    const bar = createProgressBar();
-    container.appendChild(bar);
-  }
+  typeLine(`[${new Date().toLocaleTimeString()}] ${msg} ${randomHex()}`);
 }
 
 // CLEANUP
@@ -243,22 +240,21 @@ function cleanup() {
   }
 }
 
-// MAIN LOOP
+// LOOP
 function loop() {
   try {
-    const count = 2 + Math.floor(Math.random()*4);
+    const count = 1 + Math.floor(Math.random()*3);
 
     for (let i = 0; i < count; i++) {
       randomLine();
     }
 
     cleanup();
-    window.scrollTo(0, document.body.scrollHeight);
 
-    setTimeout(loop, 120 + Math.random()*200);
+    setTimeout(loop, 250 + Math.random()*300);
 
   } catch (e) {
-    setTimeout(loop, 200);
+    setTimeout(loop, 300);
   }
 }
 
@@ -266,3 +262,4 @@ setTimeout(runBoot, 500);
 </script>
 </body>
 </html>
+```
