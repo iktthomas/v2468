@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<title>screen</title>
+<title>Hacker Scan</title>
 <style>
   body {
     margin: 0;
@@ -38,27 +38,100 @@
 const terminal = document.getElementById("terminal");
 
 const messages = [
-  "Initializing system scan...",
-  "Bypassing firewall...",
-  "Accessing secure node...",
-  "Decrypting data packets...",
-  "Injecting payload...",
-  "Scanning ports...",
-  "Tracking IP address...",
-  "Establishing connection...",
-  "Uploading exploit...",
-  "Downloading database...",
-  "Root access granted...",
-  "Executing command..."
+"Intercepting encrypted traffic...",
+"Uploading data to remote server...",
+"System integrity compromised...",
+"Initiating stealth mode...",
+"Collecting system metadata...",
+"Analyzing packet headers...",
+"Decrypting SSL layer...",
+"Injecting rootkit...",
+"Monitoring network traffic...",
+"Capturing live session...",
+"Reconstructing data stream...",
+"Bypassing intrusion detection...",
+"Scanning open sockets...",
+"Accessing hidden partitions...",
+"Reading kernel memory...",
+"Executing remote commands...",
+"Establishing persistence...",
+"Disabling security services...",
+"Extracting system logs...",
+"Replaying authentication tokens...",
+"Injecting shell access...",
+"Resolving hidden services...",
+"Mapping device topology...",
+"Syncing exploit modules...",
+"Bridging to darknet node...",
+"Capturing DNS queries...",
+"Inspecting firewall rules...",
+"Enumerating admin accounts...",
+"Checking system vulnerabilities...",
+"Uploading payload fragments...",
+"Reassembling encrypted files...",
+"Monitoring CPU usage...",
+"Tracking user activity...",
+"Accessing webcam feed...",
+"Initializing deep scan...",
+"Cracking encryption keys...",
+"Spawning hidden process...",
+"Injecting script into memory...",
+"Analyzing behavior patterns...",
+"Linking remote endpoints...",
+"Overclocking brute force engine...",
+"Rewriting system registry...",
+"Extracting browser data...",
+"Scanning USB devices...",
+"Monitoring input devices...",
+"Hooking keyboard input...",
+"Intercepting login attempts...",
+"Reading clipboard data...",
+"Scanning for credentials...",
+"Building attack vectors...",
+"Launching secondary scan...",
+"Indexing system resources...",
+"Resolving hidden IPs...",
+"Redirecting network traffic...",
+"Capturing authentication flow...",
+"Breaking sandbox restrictions...",
+"Initializing silent protocol...",
+"Optimizing attack sequence...",
+"Executing background tasks...",
+"Collecting entropy data...",
+"SYSTEM TRACE INITIATED...",
+"TARGET LOCKED...",
+"OVERRIDE IN PROGRESS...",
+"SECURITY BYPASS SUCCESS...",
+"DATA BREACH CONFIRMED..."
 ];
 
 const errors = [
-  "ERROR: Access denied",
-  "CRITICAL FAILURE: Node unreachable",
-  "WARNING: Suspicious activity detected",
-  "ERROR: Decryption failed",
-  "SECURITY ALERT: Firewall triggered",
-  "FATAL: Connection timeout"
+"ERROR: Access denied",
+"CRITICAL FAILURE: Node unreachable",
+"WARNING: Suspicious activity detected",
+"ERROR: Decryption failed",
+"SECURITY ALERT: Firewall triggered",
+"FATAL: Connection timeout",
+"ERROR: Unauthorized access",
+"CRITICAL: Firewall breach detected",
+"WARNING: Suspicious login attempt",
+"ERROR: Root access denied",
+"ALERT: Malware signature detected",
+"CRITICAL: System file corrupted",
+"ERROR: Privilege escalation failed",
+"WARNING: Unusual network behavior",
+"ALERT: Multiple intrusion attempts",
+"ERROR: Security protocol failure",
+"CRITICAL: Data integrity compromised",
+"WARNING: Unauthorized device connected",
+"ERROR: Access token invalid",
+"ALERT: Remote execution blocked",
+"CRITICAL: Kernel access denied",
+"ERROR: Session hijack detected",
+"WARNING: High-risk activity flagged",
+"ALERT: Encryption mismatch",
+"CRITICAL: Unauthorized root access attempt",
+"ERROR: Network breach detected"
 ];
 
 function randomHex() {
@@ -84,17 +157,10 @@ function createProgressBar() {
   return container;
 }
 
-function addLine(text, className="") {
-  const line = document.createElement("div");
-  line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
-  if (className) line.className = className;
-  terminal.appendChild(line);
-}
-
 function randomLine() {
   const line = document.createElement("div");
 
-  if (Math.random() < 0.2) {
+  if (Math.random() < 0.35) {
     line.textContent = `[${new Date().toLocaleTimeString()}] ${errors[Math.floor(Math.random()*errors.length)]}`;
     line.className = "error";
     return line;
@@ -122,16 +188,17 @@ function loop() {
   try {
     const r = Math.random();
 
-    // thinking pause
     if (r < 0.15) {
-      addLine("thinking...", "thinking");
+      const t = document.createElement("div");
+      t.textContent = `[${new Date().toLocaleTimeString()}] thinking...`;
+      t.className = "thinking";
+      terminal.appendChild(t);
       cleanup();
       window.scrollTo(0, document.body.scrollHeight);
       return setTimeout(loop, 800 + Math.random()*1000);
     }
 
-    // burst
-    if (r < 0.4) {
+    if (r < 0.35) {
       for (let i = 0; i < 12; i++) {
         terminal.appendChild(randomLine());
       }
@@ -140,7 +207,18 @@ function loop() {
       return setTimeout(loop, 60);
     }
 
-    // normal flow
+    if (r < 0.5) {
+      for (let i = 0; i < 20; i++) {
+        const el = document.createElement("div");
+        el.textContent = `[${new Date().toLocaleTimeString()}] ${errors[Math.floor(Math.random()*errors.length)]}`;
+        el.className = "error";
+        terminal.appendChild(el);
+      }
+      cleanup();
+      window.scrollTo(0, document.body.scrollHeight);
+      return setTimeout(loop, 80);
+    }
+
     const count = 2 + Math.floor(Math.random()*4);
     for (let i = 0; i < count; i++) {
       terminal.appendChild(randomLine());
@@ -149,16 +227,13 @@ function loop() {
     cleanup();
     window.scrollTo(0, document.body.scrollHeight);
 
-    const delay = 120 + Math.random()*200;
-    setTimeout(loop, delay);
+    setTimeout(loop, 120 + Math.random()*200);
 
   } catch (e) {
-    console.error(e);
-    setTimeout(loop, 200); // never die
+    setTimeout(loop, 200);
   }
 }
 
-// start safely
 setTimeout(loop, 200);
 </script>
 </body>
